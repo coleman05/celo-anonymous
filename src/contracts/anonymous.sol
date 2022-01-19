@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT  
 
 pragma solidity >=0.7.0 <0.9.0;
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 interface IERC20Token {
   function transfer(address, uint256) external returns (bool);
@@ -51,6 +52,12 @@ contract Anonymous{
             text.likes,
             text.dislikes
         );
+    }
+
+    function editText(uint _index, string memory newText)public{
+        require(msg.sender == texts[_index].owner, "Only for the owner");
+        Text storage text = texts[_index];
+        text.secretText = newText;
     }
 
     function likeText(uint _index) public {
